@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import ChatPanel from './ChatPanel';
+import FullScreenChat from './FullScreenChat';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -271,20 +272,21 @@ const ManagerAgentCTA = styled.button`
 `;
 
 const employees = [
-  { id: 1, name: 'Omar Calzoni', role: 'Senior UX Designer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face', isPast: false },
-  { id: 2, name: 'Allison Madisen', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b590?w=100&h=100&fit=crop&crop=face', isPast: false },
-  { id: 3, name: 'Marley Bergson', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face', isPast: true },
-  { id: 4, name: 'James Dokidis', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face', isPast: true },
-  { id: 5, name: 'Jaiden Toriff', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face', isPast: true },
-  { id: 6, name: 'Alfredo Jameson', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=100&h=100&fit=crop&crop=face', isPast: true },
-  { id: 7, name: 'Payton Passe', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=100&h=100&fit=crop&crop=face', isPast: true },
-  { id: 8, name: 'Miracle Watkins', role: 'UX Designer', avatar: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 1, name: 'Omar Calzoni', role: 'Senior UX Designer', photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face', isPast: false },
+  { id: 2, name: 'Allison Madisen', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1494790108755-2616b612b590?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b590?w=100&h=100&fit=crop&crop=face', isPast: false },
+  { id: 3, name: 'Marley Bergson', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 4, name: 'James Dokidis', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 5, name: 'Jaiden Toriff', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 6, name: 'Alfredo Jameson', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 7, name: 'Payton Passe', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1534751516642-a1af1ef26a56?w=100&h=100&fit=crop&crop=face', isPast: true },
+  { id: 8, name: 'Miracle Watkins', role: 'UX Designer', photo: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop&crop=face', avatar: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&h=100&fit=crop&crop=face', isPast: true },
 ];
 
 function App() {
   const [showPastEmployees, setShowPastEmployees] = useState(true);
   const [chatPanelOpen, setChatPanelOpen] = useState(false);
   const [selectedChatEmployee, setSelectedChatEmployee] = useState(null);
+  const [fullScreenChatOpen, setFullScreenChatOpen] = useState(false);
 
   const currentEmployees = employees.filter(emp => !emp.isPast);
   const pastEmployees = employees.filter(emp => emp.isPast);
@@ -304,6 +306,16 @@ function App() {
   const handleCloseChatPanel = () => {
     setChatPanelOpen(false);
     setSelectedChatEmployee(null);
+  };
+
+  const handleOpenFullScreenChat = () => {
+    setChatPanelOpen(false);
+    setFullScreenChatOpen(true);
+  };
+
+  const handleCloseFullScreenChat = () => {
+    setFullScreenChatOpen(false);
+    // Keep selectedChatEmployee so user can return to panel
   };
 
   return (
@@ -409,6 +421,13 @@ function App() {
         <ChatPanel 
           isOpen={chatPanelOpen}
           onClose={handleCloseChatPanel}
+          selectedEmployee={selectedChatEmployee}
+          onExpandChat={handleOpenFullScreenChat}
+        />
+
+        <FullScreenChat
+          isOpen={fullScreenChatOpen}
+          onClose={handleCloseFullScreenChat}
           selectedEmployee={selectedChatEmployee}
         />
       </Container>
